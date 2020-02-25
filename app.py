@@ -1,3 +1,4 @@
+import os
 from flask import Flask, render_template, session, redirect, url_for, flash
 from flask_bootstrap import Bootstrap
 from flask_wtf import FlaskForm
@@ -7,6 +8,9 @@ import vaderSentiment
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'hard to guess string'
+
+# Bind to PORT if defined, otherwise default to 5000.
+port = int(os.environ.get('PORT', 5000))
 
 bootstrap = Bootstrap(app)
 
@@ -38,4 +42,4 @@ def index():
 
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(host='0.0.0.0', port=port)
