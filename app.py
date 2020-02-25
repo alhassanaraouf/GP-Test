@@ -16,7 +16,7 @@ bootstrap = Bootstrap(app)
 
 
 class NameForm(FlaskForm):
-    name = StringField('What is your name?', validators=[DataRequired()])
+    name = StringField('Enter Text', validators=[DataRequired()])
     submit = SubmitField('Submit')
 
 
