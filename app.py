@@ -17,7 +17,7 @@ bootstrap = Bootstrap(app)
 
 class NameForm(FlaskForm):
     name = TextAreaField('Enter Text', validators=[DataRequired()])
-    submit = SubmitField('Submit')
+    submit = SubmitField('Clasify')
 
 
 @app.errorhandler(404)
