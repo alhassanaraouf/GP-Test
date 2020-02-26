@@ -37,11 +37,14 @@ def index():
         score = vaderSentiment.SentimentIntensityAnalyzer().polarity_scores(form.name.data)['compound']
         if score > 0.05:
             sentiment = 'Positive'
+            category = 'success'
         elif score < -0.05:
             sentiment = 'Negative'
+            category = 'danger'
         else:
             sentiment = 'Neutral'
-        flash('Score = ' + str(score) + ' (' + sentiment + ')')
+            category = 'info'
+        flash('Score = ' + str(score) + ' (' + sentiment + ')', category)
         session['name'] = form.name.data
         return redirect(url_for('index'))
     return render_template('index.html', form=form, name=session.get('name'))
