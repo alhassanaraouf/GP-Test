@@ -2,7 +2,7 @@ import os
 from flask import Flask, render_template, session, redirect, url_for, flash
 from flask_bootstrap import Bootstrap
 from flask_wtf import FlaskForm
-from wtforms import StringField, SubmitField
+from wtforms import SubmitField, TextAreaField
 from wtforms.validators import DataRequired
 import vaderSentiment
 
@@ -16,7 +16,7 @@ bootstrap = Bootstrap(app)
 
 
 class NameForm(FlaskForm):
-    name = StringField('Enter Text', validators=[DataRequired()])
+    name = TextAreaField('Enter Text', validators=[DataRequired()])
     submit = SubmitField('Submit')
 
 
@@ -35,7 +35,13 @@ def index():
     form = NameForm()
     if form.validate_on_submit():
         score = vaderSentiment.SentimentIntensityAnalyzer().polarity_scores(form.name.data)['compound']
-        flash('Score = ' + str(score))
+        if score > 0.05:
+            sentiment = 'Positive'
+        elif score < -0.05:
+            sentiment = 'Negative'
+        else:
+            sentiment = 'Neutral'
+        flash('Score = ' + str(score) + ' (' + sentiment + ')')
         session['name'] = form.name.data
         return redirect(url_for('index'))
     return render_template('index.html', form=form, name=session.get('name'))
